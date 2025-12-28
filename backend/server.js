@@ -198,7 +198,7 @@ connectDB().then(async (connected) => {
     next();
   }, require("./routes/article.routes"));
   
-  app.use("/api/users", require("./routes/user.routes.noauth"));
+  app.use("/api/users", require("./routes/user.routes"));
 
     // Direct users route without any middleware
 app.get("/api/users-direct", async (req, res) => {

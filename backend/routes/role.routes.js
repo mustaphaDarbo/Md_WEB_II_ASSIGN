@@ -1,12 +1,12 @@
 const router = require("express").Router();
 const roleController = require("../controllers/role.controller");
-const auth = require("../middleware/auth");
+const { authenticateToken, requirePermission } = require("../middleware/auth");
 
 // All routes require authentication and manageRoles permission
-router.get("/", auth("manageRoles"), roleController.getRoles);
-router.post("/", auth("manageRoles"), roleController.createRole);
-router.get("/:id", auth("manageRoles"), roleController.getRoleById);
-router.put("/:id", auth("manageRoles"), roleController.updateRole);
-router.delete("/:id", auth("manageRoles"), roleController.deleteRole);
+router.get("/", authenticateToken, requirePermission("manageRoles"), roleController.getRoles);
+router.post("/", authenticateToken, requirePermission("manageRoles"), roleController.createRole);
+router.get("/:id", authenticateToken, requirePermission("manageRoles"), roleController.getRoleById);
+router.put("/:id", authenticateToken, requirePermission("manageRoles"), roleController.updateRole);
+router.delete("/:id", authenticateToken, requirePermission("manageRoles"), roleController.deleteRole);
 
 module.exports = router;
