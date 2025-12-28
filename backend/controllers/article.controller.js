@@ -91,6 +91,28 @@ exports.createArticle = async (req, res) => {
 };
 
 /**
+ * GET PUBLISHED ARTICLES (PUBLIC)
+ * No authentication required
+ * Returns only published articles
+ */
+exports.getPublishedArticles = async (req, res) => {
+  try {
+    console.log('getPublishedArticles called');
+    
+    const articles = await Article.find({ published: true })
+      .populate("author", "fullName email")
+      .sort({ createdAt: -1 });
+    
+    console.log('Published articles found:', articles.length);
+    
+    res.json(articles);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({ error: err.message });
+  }
+};
+
+/**
  * GET ALL ARTICLES
  * Permission: view
  * Viewers see only published articles, others see all

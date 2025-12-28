@@ -26,10 +26,10 @@ export class HomeComponent implements OnInit {
 
   loadPublishedArticles() {
     this.loading = true;
-    this.articleService.getArticles().subscribe({
+    // Use the public endpoint for published articles
+    this.articleService.getPublishedArticles().subscribe({
       next: (articles: any[]) => {
-        // Show only published articles for public view
-        this.articles = articles.filter(article => article.published);
+        this.articles = articles;
         this.loading = false;
       },
       error: (err) => {

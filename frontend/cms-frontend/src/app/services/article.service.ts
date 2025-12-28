@@ -33,6 +33,11 @@ export class ArticleService {
     });
   }
 
+  getPublishedArticles(): Observable<any[]> {
+    // Public endpoint - no authentication required
+    return this.http.get<any[]>(`${this.API}/published`);
+  }
+
   getArticleById(id: string): Observable<any> {
     return this.http.get<any>(`${this.API}/${id}`, {
       headers: this.getHeaders()

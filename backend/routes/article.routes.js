@@ -12,6 +12,9 @@ router.get("/test", (req, res) => {
   ]);
 });
 
+// Public route for published articles - no authentication required
+router.get("/published", articleController.getPublishedArticles);
+
 // Read articles - requires view permission
 router.get("/", authenticateToken, requirePermission("view"), articleController.getArticles);
 
