@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const articleController = require("../controllers/article.controller");
 const upload = require("../controllers/article.controller").upload;
+const { authenticateToken, requirePermission } = require("../middleware/auth.middleware");
 
 // Simple test route that bypasses everything - MUST come before /:id
 router.get("/test", (req, res) => {
@@ -11,27 +12,23 @@ router.get("/test", (req, res) => {
   ]);
 });
 
-// Read articles - no auth with debugging
-router.get("/", (req, res, next) => {
-  console.log('GET /api/articles route hit');
-  console.log('Request headers:', req.headers);
-  next();
-}, articleController.getArticles);
+// Read articles - requires view permission
+router.get("/", authenticateToken, requirePermission("view"), articleController.getArticles);
 
-// Create article - no auth with image upload
-router.post("/", upload.single("image"), articleController.createArticle);
+// Create article - requires create permission with image upload
+router.post("/", authenticateToken, requirePermission("create"), upload.single("image"), articleController.createArticle);
 
-// Update article - no auth with image upload
-router.put("/:id", upload.single("image"), articleController.updateArticle);
+// Update article - requires edit permission with image upload
+router.put("/:id", authenticateToken, requirePermission("edit"), upload.single("image"), articleController.updateArticle);
 
-// Delete article - no auth
-router.delete("/:id", articleController.deleteArticle);
+// Delete article - requires delete permission
+router.delete("/:id", authenticateToken, requirePermission("delete"), articleController.deleteArticle);
 
-// Publish/Unpublish article - no auth
-router.put("/:id/publish", articleController.publishArticle);
-router.put("/:id/unpublish", articleController.unpublishArticle);
+// Publish/Unpublish article - requires publish permission
+router.put("/:id/publish", authenticateToken, requirePermission("publish"), articleController.publishArticle);
+router.put("/:id/unpublish", authenticateToken, requirePermission("publish"), articleController.unpublishArticle);
 
-// Get article by ID - MUST come last
-router.get("/:id", articleController.getArticleById);
+// Get article by ID - requires view permission
+router.get("/:id", authenticateToken, requirePermission("view"), articleController.getArticleById);
 
 module.exports = router;
