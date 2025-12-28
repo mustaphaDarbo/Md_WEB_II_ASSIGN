@@ -32,13 +32,6 @@ export class DashboardComponent implements OnInit {
       this.user = user;
       this.loadDashboardStats();
     });
-    
-    // Subscribe to dynamic users service for real-time updates
-    this.userService.users$.subscribe(users => {
-      console.log('Dashboard: Users updated', users.length);
-      this.stats.totalUsers = users.length;
-      console.log('Dashboard: Total users set to:', this.stats.totalUsers);
-    });
   }
 
   loadDashboardStats() {
