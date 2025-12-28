@@ -50,6 +50,13 @@ connectDB().then(async (connected) => {
   // Register routes after database connection
   app.use("/api/auth", require("./routes/auth.routes"));
   app.use("/api/roles", require("./routes/role.routes"));
+  
+  // Add a simple test route for articles
+  app.get("/api/articles-test", (req, res) => {
+    console.log('Articles test route hit');
+    res.json({ message: "Articles route works!" });
+  });
+  
   app.use("/api/articles", require("./routes/article.routes"));
   app.use("/api/users", require("./routes/user.routes"));
 
