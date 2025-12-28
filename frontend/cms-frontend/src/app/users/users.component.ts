@@ -37,17 +37,27 @@ export class UsersComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Subscribe to dynamic users service
-    this.userService.users$.subscribe(users => {
-      console.log('UsersComponent: Users updated:', users.length);
-      this.users = users;
-      this.filteredUsers = users;
-      this.loading = false;
-    });
-    
     this.authService.currentUser$.subscribe(user => {
       this.user = user;
       this.isSuperAdmin = user?.role?.name === 'SuperAdmin';
+    });
+    
+    // Load users from API
+    this.loadUsers();
+  }
+
+  loadUsers() {
+    this.userService.getAllUsers().subscribe({
+      next: (users) => {
+        console.log('Users loaded from API:', users);
+        this.users = users;
+        this.filteredUsers = users;
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error loading users:', err);
+        this.loading = false;
+      }
     });
   }
 
@@ -93,6 +103,7 @@ export class UsersComponent implements OnInit {
           alert('User updated successfully!');
           this.resetUserForm();
           this.editingUserId = null;
+          this.loadUsers(); // Refresh users list
         },
         error: (err) => {
           console.error('Error updating user:', err);
@@ -104,6 +115,7 @@ export class UsersComponent implements OnInit {
         next: (res) => {
           alert('User created successfully!');
           this.resetUserForm();
+          this.loadUsers(); // Refresh users list
         },
         error: (err) => {
           console.error('Error creating user:', err);
@@ -127,6 +139,7 @@ export class UsersComponent implements OnInit {
       this.userService.deleteUser(userId).subscribe({
         next: () => {
           alert('User deleted successfully');
+          this.loadUsers(); // Refresh users list
         },
         error: (err) => {
           console.error('Error deleting user:', err);
