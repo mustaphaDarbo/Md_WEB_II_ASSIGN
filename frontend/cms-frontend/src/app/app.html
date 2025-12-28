@@ -1,0 +1,15 @@
+<nav class="navbar" *ngIf="showNavbar">
+  <span class="logo">MEAN RBAC CMS</span>
+
+  <div class="links">
+    <a routerLink="/articles">Articles</a>
+    <a routerLink="/roles">Roles</a>
+    <a routerLink="/login">Login</a>
+  </div>
+</nav>
+
+<hr *ngIf="showNavbar" />
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>

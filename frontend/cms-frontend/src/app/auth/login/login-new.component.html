@@ -1,0 +1,90 @@
+<div class="login-container">
+  <div class="login-card">
+    <!-- Header -->
+    <div class="login-header">
+      <div class="logo">
+        <h1>CONTENTFLOW</h1>
+        <p>CMS</p>
+      </div>
+      <h2>Welcome Back!</h2>
+      <p class="subtitle">Sign in to your account to continue</p>
+    </div>
+
+    <!-- Login Form -->
+    <form class="login-form" (ngSubmit)="login()">
+      <div class="form-group">
+        <label for="email" class="form-label">Email Address</label>
+        <div class="input-group">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" stroke="currentColor" stroke-width="2"/>
+            <path d="M22 6l-10 7L2 6" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="form.email"
+            (ngModelChange)="onEmailChange()"
+            placeholder="Enter your email"
+            required
+            class="form-input"
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-group">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+            <path d="M7 11V7a5 5 0 0110 0v4" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="form.password"
+            placeholder="Enter your password"
+            required
+            class="form-input"
+          >
+        </div>
+      </div>
+
+      <button type="submit" class="login-btn" [disabled]="loading">
+        <span *ngIf="!loading">Sign In</span>
+        <span *ngIf="loading" class="loading-text">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 6v6l4 2" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          Signing in...
+        </span>
+      </button>
+    </form>
+
+    <!-- Footer -->
+    <div class="login-footer">
+      <p>Contact your administrator to create an account</p>
+    </div>
+
+    <!-- Test Users Info -->
+    <div class="test-users-info">
+      <h3>Test Users</h3>
+      <div class="user-list">
+        <div class="user-item">
+          <strong>SuperAdmin:</strong> admin@test.com / 123456
+        </div>
+        <div class="user-item">
+          <strong>Manager:</strong> manager@test.com / 123456
+        </div>
+        <div class="user-item">
+          <strong>Contributor:</strong> contributor@test.com / 123456
+        </div>
+        <div class="user-item">
+          <strong>Viewer:</strong> viewer@test.com / 123456
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

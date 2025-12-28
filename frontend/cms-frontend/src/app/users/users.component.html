@@ -1,0 +1,158 @@
+<div class="dashboard-wrapper">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo">CM</div>
+      <div class="brand-text">CONTENTFLOW CMS</div>
+    </div>
+    
+    <nav class="nav-menu">
+      <a routerLink="/articles" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </span>
+        <span>Articles</span>
+      </a>
+
+      <a routerLink="/articles" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4h16v16H4V4Z" stroke="currentColor" stroke-width="2"/><path d="M8 8h8M8 12h8M8 16h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </span>
+        <span>Articles Library</span>
+      </a>
+
+      <a routerLink="/users" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 11c1.66 0 3-1.34 3-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3ZM8 11c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3Z" fill="currentColor"/><path d="M16 13c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4Zm-8 0c-.29 0-.62.02-.97.05C5.1 13.36 2 14.45 2 17v2h6v-2.2c0-1.32.7-2.42 1.8-3.25-.57-.23-1.18-.55-1.8-.55Z" fill="currentColor"/></svg>
+        </span>
+        <span>Users</span>
+      </a>
+
+      <a routerLink="/roles" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        </span>
+        <span>Roles &amp; Permissions</span>
+      </a>
+
+      <button type="button" (click)="logout()" class="nav-item logout">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 17l-1 0c-3 0-5-2-5-5s2-5 5-5h1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14 7l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 12H10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </span>
+        <span>Logout</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button type="button" class="icon-btn" aria-label="Menu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 7h16M4 12h10M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+      <div class="topbar-center">
+        <div class="search-pill">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M10.5 18a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15Z" stroke="currentColor" stroke-width="2"/></svg>
+          <input
+            type="text"
+            placeholder="Search users..."
+            [(ngModel)]="searchTerm"
+            (input)="searchUsers()"
+          />
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <div class="user-chip">
+          <span class="user-greeting">Hi,&nbsp;{{ user?.fullName || 'User' }}</span>
+          <div class="avatar">
+            <span>{{ userInitials }}</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <div class="content-area">
+      <div class="page-header">
+        <h1>User Management</h1>
+        <div class="page-subtitle">Manage users and their roles</div>
+      </div>
+
+      <!-- Create User Form - Always show -->
+        <div class="user-card create-user-card">
+          <div class="user-header">
+            <h3>Create New User</h3>
+          </div>
+          
+          <form (ngSubmit)="createUser()" class="create-user-form">
+            <input
+              type="text"
+              name="fullName"
+              [(ngModel)]="newUser.fullName"
+              placeholder="Full Name"
+              required
+              class="user-input"
+            />
+            
+            <input
+              type="email"
+              name="email"
+              [(ngModel)]="newUser.email"
+              placeholder="Email Address"
+              required
+              class="user-input"
+            />
+            
+            <input
+              type="password"
+              name="password"
+              [(ngModel)]="newUser.password"
+              placeholder="Password"
+              required
+              class="user-input"
+            />
+            
+            <select name="role" [(ngModel)]="newUser.role" class="user-select">
+              <option value="">Select Role</option>
+              <option value="SuperAdmin">SuperAdmin</option>
+              <option value="Manager">Manager</option>
+              <option value="Contributor">Contributor</option>
+              <option value="Viewer">Viewer</option>
+            </select>
+            
+            <button type="submit" class="create-user-btn">Create User</button>
+          </form>
+        </div>
+
+        <div *ngIf="filteredUsers.length === 0 && users.length === 0" class="no-users">
+          <p>No users found. Create your first user above.</p>
+        </div>
+
+        <div *ngFor="let user of filteredUsers" class="user-card">
+          <div class="user-header">
+            <div class="user-info">
+              <h3>{{ user.fullName }}</h3>
+            </div>
+            <div class="user-avatar">
+              <span>{{ getInitials(user.fullName) }}</span>
+            </div>
+          </div>
+          
+          <div class="user-role">
+            <span class="role-badge">{{ user.role?.name || 'No Role' }}</span>
+          </div>
+
+          <div class="user-actions" *ngIf="hasPermission('manageUsers')">
+            <button class="action-btn delete-btn" (click)="deleteUser(user._id)" *ngIf="user._id !== currentUser?.id">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14zM10 11v6M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

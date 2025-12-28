@@ -1,0 +1,108 @@
+<div class="dashboard-container">
+  <!-- Welcome Section -->
+  <div class="welcome-section">
+    <h1 class="welcome-title">Welcome back, {{ user?.fullName || 'User' }}!</h1>
+    <p class="welcome-subtitle">Role: <span class="role-badge">{{ user?.role }}</span></p>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="stats-grid" *ngIf="!loading">
+    <div class="stat-card">
+      <div class="stat-icon total">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <h3 class="stat-number">{{ stats.totalArticles }}</h3>
+        <p class="stat-label">Total Articles</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon published">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <h3 class="stat-number">{{ stats.publishedArticles }}</h3>
+        <p class="stat-label">Published</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon draft">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7v10c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V7l-8-5Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <h3 class="stat-number">{{ stats.draftArticles }}</h3>
+        <p class="stat-label">Drafts</p>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon users">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 11c1.66 0 3-1.34 3-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3ZM8 11c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3Z" fill="currentColor"/>
+          <path d="M16 13c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4Zm-8 0c-.29 0-.62.02-.97.05C5.1 13.36 2 14.45 2 17v2h6v-2.2c0-1.32.7-2.42 1.8-3.25-.57-.23-1.18-.55-1.8-.55Z" fill="currentColor"/>
+        </svg>
+      </div>
+      <div class="stat-content">
+        <h3 class="stat-number">{{ stats.totalUsers }}</h3>
+        <p class="stat-label">Total Users</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="loading">
+    <div class="loading-spinner"></div>
+    <p>Loading dashboard...</p>
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="quick-actions" *ngIf="!loading">
+    <h2 class="section-title">Quick Actions</h2>
+    <div class="actions-grid">
+      <button type="button" class="action-btn" routerLink="/articles/create" *ngIf="hasPermission('create')">
+        <span class="action-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="action-text">Create Article</span>
+      </button>
+
+      <button type="button" class="action-btn" routerLink="/articles">
+        <span class="action-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="action-text">View Articles</span>
+      </button>
+
+      <button type="button" class="action-btn" routerLink="/users" *ngIf="hasPermission('manageUsers')">
+        <span class="action-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 11c1.66 0 3-1.34 3-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3ZM8 11c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3Z" fill="currentColor"/>
+            <path d="M16 13c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4Zm-8 0c-.29 0-.62.02-.97.05C5.1 13.36 2 14.45 2 17v2h6v-2.2c0-1.32.7-2.42 1.8-3.25-.57-.23-1.18-.55-1.8-.55Z" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="action-text">Manage Users</span>
+      </button>
+
+      <button type="button" class="action-btn" routerLink="/roles" *ngIf="hasPermission('manageRoles')">
+        <span class="action-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="action-text">Manage Roles</span>
+      </button>
+    </div>
+  </div>
+</div>

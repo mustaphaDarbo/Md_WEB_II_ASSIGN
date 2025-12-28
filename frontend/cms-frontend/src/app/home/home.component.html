@@ -1,0 +1,122 @@
+<div class="home-container">
+  <!-- Navigation Header -->
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <h1>CONTENTFLOW</h1>
+        <span class="nav-subtitle">CMS</span>
+      </div>
+      
+      <nav class="nav-menu">
+        <a routerLink="/" class="nav-link active">Home</a>
+        <a routerLink="/login" class="nav-link nav-login">Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1 class="hero-title">Welcome to ContentFlow CMS</h1>
+      <p class="hero-subtitle">Discover amazing articles and insights from our contributors</p>
+    </div>
+  </section>
+
+  <!-- Articles Section -->
+  <main class="articles-section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Latest Articles</h2>
+        <p class="section-subtitle">Explore our most recent published content</p>
+      </div>
+
+      <!-- Loading State -->
+      <div class="loading-state" *ngIf="loading">
+        <div class="loading-spinner"></div>
+        <p>Loading articles...</p>
+      </div>
+
+      <!-- Articles Grid -->
+      <div class="articles-grid" *ngIf="!loading">
+        <!-- Empty State -->
+        <div class="empty-state" *ngIf="articles.length === 0">
+          <div class="empty-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h3>No Articles Found</h3>
+          <p>There are no published articles yet. Check back soon!</p>
+        </div>
+
+        <!-- Article Cards -->
+        <article class="article-card" *ngFor="let article of articles">
+          <!-- Article Image -->
+          <div class="article-image" *ngIf="article.image">
+            <img [src]="getArticleImageUrl(article.image)" [alt]="article.title" 
+                 (error)="onImageError($event)" class="article-img">
+          </div>
+          
+          <!-- Placeholder if no image -->
+          <div class="article-image" *ngIf="!article.image">
+            <div class="image-placeholder">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" stroke-width="2"/>
+                <path d="M21 15l-5-5L5 21" stroke="currentColor" stroke-width="2"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="article-content">
+            <h3 class="article-title">{{ article.title }}</h3>
+            <p class="article-excerpt">{{ getExcerpt(article.body) }}</p>
+          </div>
+
+          <div class="article-meta">
+            <div class="author-info">
+              <div class="author-avatar">
+                <span>{{ article.author?.fullName?.charAt(0)?.toUpperCase() || 'A' }}</span>
+              </div>
+              <div class="author-details">
+                <span class="author-name">{{ article.author?.fullName || 'Anonymous' }}</span>
+                <span class="article-date">{{ formatDate(article.createdAt) }}</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <h3>CONTENTFLOW CMS</h3>
+          <p>Modern content management with role-based access control</p>
+        </div>
+        
+        <div class="footer-links">
+          <div class="link-group">
+            <h4>Navigation</h4>
+            <a routerLink="/">Home</a>
+            <a routerLink="/login">Login</a>
+          </div>
+          
+          <div class="link-group">
+            <h4>Features</h4>
+            <a>Role-Based Access</a>
+            <a>Article Management</a>
+            <a>User Management</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 ContentFlow CMS. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</div>

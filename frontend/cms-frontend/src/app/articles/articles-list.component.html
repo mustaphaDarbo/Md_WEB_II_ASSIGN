@@ -1,0 +1,100 @@
+<div class="articles-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">Articles</h1>
+      <button type="button" class="btn btn-primary" routerLink="/articles/create" *ngIf="hasPermission('create')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        Create Article
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="loading">
+    <div class="loading-spinner"></div>
+    <p>Loading articles...</p>
+  </div>
+
+  <!-- Articles List -->
+  <div class="articles-list" *ngIf="!loading">
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="articles.length === 0">
+      <div class="empty-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h3>No articles found</h3>
+      <p>Start by creating your first article.</p>
+      <button type="button" class="btn btn-primary" routerLink="/articles/create" *ngIf="hasPermission('create')">
+        Create Article
+      </button>
+    </div>
+
+    <!-- Articles Grid -->
+    <div class="articles-grid" *ngIf="articles.length > 0">
+      <div class="article-card" *ngFor="let article of articles">
+        <!-- Article Image -->
+        <div class="article-image" *ngIf="article.image">
+          <img [src]="getArticleImageUrl(article.image)" [alt]="article.title" 
+               (error)="onImageError($event)" class="article-img">
+        </div>
+        
+        <div class="article-header">
+          <h3 class="article-title">{{ article.title }}</h3>
+          <span class="article-status" [class.published]="article.published" [class.draft]="!article.published">
+            {{ article.published ? 'Published' : 'Draft' }}
+          </span>
+        </div>
+        
+        <div class="article-content">
+          <p class="article-excerpt">{{ article.body?.slice(0,150) || 'No content' }}{{ article.body?.length > 150 ? '...' : '' }}</p>
+        </div>
+
+        <div class="article-meta">
+          <div class="author-info">
+            <span class="author-name">{{ article.author?.fullName || 'Unknown' }}</span>
+            <span class="article-date">{{ formatDate(article.createdAt) }}</span>
+          </div>
+        </div>
+
+        <div class="article-actions">
+          <button type="button" class="btn btn-sm btn-secondary" (click)="editArticle(article._id)" *ngIf="hasPermission('edit')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Edit
+          </button>
+
+          <button type="button" class="btn btn-sm btn-success" (click)="publishArticle(article._id)" 
+                  *ngIf="hasPermission('publish') && !article.published">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Publish
+          </button>
+
+          <button type="button" class="btn btn-sm btn-warning" (click)="unpublishArticle(article._id)" 
+                  *ngIf="hasPermission('publish') && article.published">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Unpublish
+          </button>
+
+          <button type="button" class="btn btn-sm btn-danger" (click)="deleteArticle(article._id)" 
+                  *ngIf="hasPermission('delete')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14zM10 11v6M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

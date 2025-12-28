@@ -1,0 +1,186 @@
+<div class="dashboard-wrapper">
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo">CM</div>
+      <div class="brand-text">CONTENTFLOW CMS</div>
+    </div>
+    
+    <nav class="nav-menu">
+      <a routerLink="/articles" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 6h16M4 12h16M4 18h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </span>
+        <span>Articles</span>
+      </a>
+
+      <a routerLink="/articles" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 4h16v16H4V4Z" stroke="currentColor" stroke-width="2"/><path d="M8 8h8M8 12h8M8 16h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </span>
+        <span>Articles Library</span>
+      </a>
+
+      <a routerLink="/users" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 11c1.66 0 3-1.34 3-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3ZM8 11c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3Z" fill="currentColor"/><path d="M16 13c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4Zm-8 0c-.29 0-.62.02-.97.05C5.1 13.36 2 14.45 2 17v2h6v-2.2c0-1.32.7-2.42 1.8-3.25-.57-.23-1.18-.55-1.8-.55Z" fill="currentColor"/></svg>
+        </span>
+        <span>Users</span>
+      </a>
+
+      <a routerLink="/roles" routerLinkActive="active" class="nav-item">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        </span>
+        <span>Roles &amp; Permissions</span>
+      </a>
+
+      <button type="button" (click)="logout()" class="nav-item logout">
+        <span class="nav-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 17l-1 0c-3 0-5-2-5-5s2-5 5-5h1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14 7l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M19 12H10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </span>
+        <span>Logout</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <header class="topbar">
+      <div class="topbar-left">
+        <button type="button" class="icon-btn" aria-label="Menu">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 7h16M4 12h10M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+
+      <div class="topbar-center">
+        <div class="search-pill">
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M10.5 18a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15Z" stroke="currentColor" stroke-width="2"/></svg>
+          <input
+            type="text"
+            placeholder="Search roles..."
+            [(ngModel)]="searchTerm"
+            (input)="searchRoles()"
+          />
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <div class="user-chip">
+          <span class="user-greeting">Hi,&nbsp;{{ user?.fullName || 'User' }}</span>
+          <div class="avatar">
+            <span>{{ userInitials }}</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Content Area -->
+    <div class="content-area">
+      <div class="page-header">
+        <div class="page-subtitle">Manage roles and permissions for your team</div>
+      </div>
+
+      <!-- Roles List -->
+      <div class="roles-container">
+        <!-- Create Role Form -->
+        <div class="role-card create-role-card" *ngIf="hasPermission('manageRoles')">
+          <div class="role-header">
+            <h3>Create New Role</h3>
+          </div>
+          
+          <form (ngSubmit)="createRole()" class="create-role-form">
+            <input
+              type="text"
+              name="roleName"
+              [(ngModel)]="newRole.name"
+              placeholder="Role name"
+              required
+              class="role-name-input"
+            />
+            
+            <div class="permissions-checkboxes">
+              <label class="checkbox-label">
+                <input type="checkbox" [(ngModel)]="newRole.permissions.create" name="create">
+                <span>Create</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" [(ngModel)]="newRole.permissions.edit" name="edit">
+                <span>Edit</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" [(ngModel)]="newRole.permissions.delete" name="delete">
+                <span>Delete</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" [(ngModel)]="newRole.permissions.publish" name="publish">
+                <span>Publish</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" [(ngModel)]="newRole.permissions.view" name="view">
+                <span>View</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" [(ngModel)]="newRole.permissions.manageUsers" name="manageUsers">
+                <span>Manage Users</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="checkbox" [(ngModel)]="newRole.permissions.manageRoles" name="manageRoles">
+                <span>Manage Roles</span>
+              </label>
+            </div>
+            
+            <button type="submit" class="create-role-btn">{{ editingRoleId ? 'Update Role' : 'Create Role' }}</button>
+            <button type="button" *ngIf="editingRoleId" class="create-role-btn cancel" (click)="resetForm(); editingRoleId = null;">Cancel Edit</button>
+          </form>
+        </div>
+
+        <div *ngIf="filteredRoles.length === 0 && roles.length === 0" class="no-roles">
+          <p>No roles found. Create your first role above.</p>
+        </div>
+
+        <div *ngFor="let role of filteredRoles" class="role-card">
+          <div class="role-header">
+            <h3>{{ role.name }}</h3>
+            <span class="role-badge">{{ role.permissions ? 'Active' : 'Inactive' }}</span>
+          </div>
+          
+          <div class="permissions-grid">
+            <div class="permission-item" [class.enabled]="role.permissions?.create">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2v20M2 12h20" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              <span>Create</span>
+            </div>
+            <div class="permission-item" [class.enabled]="role.permissions?.edit">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Edit</span>
+            </div>
+            <div class="permission-item" [class.enabled]="role.permissions?.delete">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6h14zM10 11v6M14 11v6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Delete</span>
+            </div>
+            <div class="permission-item" [class.enabled]="role.permissions?.publish">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Publish</span>
+            </div>
+            <div class="permission-item" [class.enabled]="role.permissions?.view">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
+              <span>View</span>
+            </div>
+            <div class="permission-item" [class.enabled]="role.permissions?.manageUsers">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 11c1.66 0 3-1.34 3-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3ZM8 11c1.66 0 3-1.34 3-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3Z" fill="currentColor"/><path d="M16 13c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4Zm-8 0c-.29 0-.62.02-.97.05C5.1 13.36 2 14.45 2 17v2h6v-2.2c0-1.32.7-2.42 1.8-3.25-.57-.23-1.18-.55-1.8-.55Z" fill="currentColor"/></svg>
+              <span>Manage Users</span>
+            </div>
+            <div class="permission-item" [class.enabled]="role.permissions?.manageRoles">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span>Manage Roles</span>
+            </div>
+          </div>
+          <div class="role-actions" *ngIf="hasPermission('manageRoles')">
+            <button class="action-btn edit-btn" (click)="editRole(role)">Edit</button>
+            <button class="action-btn delete-btn" (click)="deleteRole(role._id)" *ngIf="role.name !== 'SuperAdmin'">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

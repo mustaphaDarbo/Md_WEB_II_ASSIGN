@@ -1,0 +1,249 @@
+.auth-wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 24px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.auth-card {
+  width: min(800px, 100%);
+  min-height: 420px;
+  display: flex;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+@media (max-width: 1200px) {
+  .auth-card {
+    width: min(700px, 100%);
+  }
+}
+
+@media (max-width: 992px) {
+  .auth-card {
+    width: min(600px, 100%);
+  }
+  
+  .auth-left {
+    padding: 40px 25px;
+  }
+  
+  .auth-right {
+    padding: 50px 35px;
+  }
+}
+
+@media (max-width: 860px) {
+  .auth-card {
+    flex-direction: column;
+    min-height: auto;
+    width: min(500px, 100%);
+  }
+
+  .auth-left,
+  .auth-right {
+    width: 100%;
+  }
+  
+  .auth-left {
+    padding: 30px 20px;
+  }
+  
+  .auth-right {
+    padding: 30px 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .auth-wrapper {
+    padding: 16px;
+  }
+  
+  .auth-card {
+    width: 100%;
+    border-radius: 16px;
+  }
+  
+  .auth-left {
+    padding: 25px 20px;
+  }
+  
+  .auth-right {
+    padding: 25px 20px;
+  }
+  
+  .auth-right h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .auth-right input {
+    padding: 14px;
+    font-size: 16px;
+  }
+  
+  .auth-right button {
+    padding: 14px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-wrapper {
+    padding: 12px;
+  }
+  
+  .auth-card {
+    border-radius: 12px;
+  }
+  
+  .auth-left {
+    padding: 20px 16px;
+  }
+  
+  .auth-left h2 {
+    font-size: 22px;
+  }
+  
+  .auth-left p {
+    font-size: 13px;
+  }
+  
+  .ghost-btn {
+    padding: 8px 24px;
+    font-size: 14px;
+  }
+  
+  .auth-right {
+    padding: 20px 16px;
+  }
+  
+  .auth-right h2 {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+  
+  .auth-right input {
+    padding: 12px;
+    font-size: 15px;
+    margin-bottom: 12px;
+  }
+  
+  .auth-right button {
+    padding: 12px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 360px) {
+  .auth-wrapper {
+    padding: 8px;
+  }
+  
+  .auth-left {
+    padding: 16px 12px;
+  }
+  
+  .auth-right {
+    padding: 16px 12px;
+  }
+  
+  .auth-right input {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .auth-right button {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+/* LEFT PANEL */
+.auth-left {
+  width: 40%;
+  background: linear-gradient(180deg, #5b3cc4 0%, #3a1c71 100%);
+  color: white;
+  padding: 50px 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.auth-left h2 {
+  margin-bottom: 10px;
+}
+
+.auth-left p {
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+
+.ghost-btn {
+  padding: 10px 30px;
+  border: 2px solid white;
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+}
+
+.ghost-btn:hover {
+  background: white;
+  color: #5b3cc4;
+}
+
+/* RIGHT PANEL */
+.auth-right {
+  width: 60%;
+  padding: 60px 40px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.auth-right h2 {
+  margin-bottom: 30px;
+}
+
+.auth-right input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  border: 1px solid rgba(226, 232, 240, 0.6);
+  font-size: 15px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+}
+
+.auth-right button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.auth-right button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+}

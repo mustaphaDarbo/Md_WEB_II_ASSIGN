@@ -1,0 +1,134 @@
+<div class="article-form-container">
+  <!-- Header -->
+  <div class="page-header">
+    <h1 class="page-title">{{ isEdit ? 'Edit Article' : 'Create Article' }}</h1>
+    <button type="button" class="btn btn-secondary" (click)="cancel()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Cancel
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="loading">
+    <div class="loading-spinner"></div>
+    <p>{{ isEdit ? 'Loading article...' : 'Saving article...' }}</p>
+  </div>
+
+  <!-- Article Form -->
+  <div class="article-form" *ngIf="!loading">
+    <form (ngSubmit)="saveArticle()">
+      <!-- Title Field -->
+      <div class="form-group">
+        <label for="title" class="form-label">Title *</label>
+        <input 
+          type="text" 
+          id="title" 
+          name="title" 
+          class="form-input" 
+          [(ngModel)]="article.title" 
+          required
+          placeholder="Enter article title"
+        >
+      </div>
+
+      <!-- Body Field -->
+      <div class="form-group">
+        <label for="body" class="form-label">Content *</label>
+        <textarea 
+          id="body" 
+          name="body" 
+          class="form-textarea" 
+          [(ngModel)]="article.body" 
+          required
+          rows="12"
+          placeholder="Write your article content here..."
+        ></textarea>
+      </div>
+
+      <!-- Image Upload -->
+      <div class="form-group">
+        <label class="form-label">Optional Image</label>
+        <input type="file" name="image" accept="image/*" (change)="onImageSelected($event)" />
+
+        <div class="image-preview" *ngIf="imagePreview">
+          <img [src]="imagePreview" alt="Preview" />
+        </div>
+      </div>
+
+      <!-- Publishing Options -->
+      <div class="form-group" *ngIf="hasPermission('publish')">
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input 
+              type="checkbox" 
+              name="published" 
+              [(ngModel)]="article.published"
+              class="checkbox-input"
+            >
+            <span class="checkbox-text">Publish immediately</span>
+          </label>
+          <p class="checkbox-help">
+            When checked, the article will be visible to all users. When unchecked, it will be saved as a draft.
+          </p>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <div class="action-buttons">
+          <!-- Save as Draft -->
+          <button type="button" class="btn btn-secondary" (click)="saveAsDraft()" *ngIf="!article.published">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M17 21v-8H7v8M7 3v5h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Save as Draft
+          </button>
+
+          <!-- Publish Button -->
+          <button type="button" class="btn btn-success" (click)="publish()" *ngIf="hasPermission('publish') && !article.published">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Publish Article
+          </button>
+
+          <!-- Update Button (for edit mode) -->
+          <button type="submit" class="btn btn-primary" *ngIf="isEdit">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Update Article
+          </button>
+
+          <!-- Create Button (for new articles) -->
+          <button type="submit" class="btn btn-primary" *ngIf="!isEdit && !hasPermission('publish')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+            Create Article
+          </button>
+        </div>
+
+        <!-- Cancel Button -->
+        <button type="button" class="btn btn-outline-secondary" (click)="cancel()">
+          Cancel
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Help Section -->
+  <div class="help-section" *ngIf="!loading">
+    <h3>Tips for Writing Articles</h3>
+    <ul>
+      <li>Use a clear, descriptive title that summarizes your content</li>
+      <li>Write engaging content that provides value to your readers</li>
+      <li>Use proper formatting with paragraphs and headings</li>
+      <li>Review your content before publishing</li>
+      <li>Save as draft if you're not ready to publish yet</li>
+    </ul>
+  </div>
+</div>

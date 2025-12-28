@@ -1,0 +1,103 @@
+<div class="users-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-content">
+      <h1 class="page-title">User Management</h1>
+      <p class="page-subtitle">Manage system users and their roles</p>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="loading">
+    <div class="loading-spinner"></div>
+    <p>Loading users...</p>
+  </div>
+
+  <!-- Users List -->
+  <div class="users-content" *ngIf="!loading">
+    <div class="users-grid">
+      <div class="user-card" *ngFor="let user of users">
+        <div class="user-header">
+          <div class="user-avatar">
+            <span>{{ user.fullName?.charAt(0)?.toUpperCase() || 'U' }}</span>
+          </div>
+          <div class="user-info">
+            <h3 class="user-name">{{ user.fullName }}</h3>
+            <p class="user-email">{{ user.email }}</p>
+          </div>
+        </div>
+
+        <div class="user-role">
+          <span class="role-badge" [class.role-superadmin]="user.role === 'SuperAdmin'"
+                [class.role-manager]="user.role === 'Manager'"
+                [class.role-contributor]="user.role === 'Contributor'"
+                [class.role-viewer]="user.role === 'Viewer'">
+            {{ user.role }}
+          </span>
+        </div>
+
+        <div class="user-meta">
+          <span class="join-date">Joined {{ formatDate(user.createdAt) }}</span>
+        </div>
+
+        <div class="user-actions">
+          <button type="button" class="btn btn-sm btn-secondary" (click)="editUser(user)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" stroke="currentColor" stroke-width="2"/>
+              <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            Edit Role
+          </button>
+          
+          <button type="button" class="btn btn-sm btn-danger" 
+                  (click)="deleteUser(user._id)"
+                  *ngIf="user._id !== currentUser?._id">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 6h18M8 6V4a2 2 0 012-2h4a2 2 0 012 2v2m3 0v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6h14zM10 11v6M14 11v6" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Edit User Modal -->
+  <div class="modal-overlay" *ngIf="showEditModal" (click)="closeEditModal()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Edit User Role</h2>
+        <button type="button" class="modal-close" (click)="closeEditModal()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body" *ngIf="selectedUser">
+        <div class="user-details">
+          <div class="detail-item">
+            <label>Name:</label>
+            <span>{{ selectedUser.fullName }}</span>
+          </div>
+          <div class="detail-item">
+            <label>Email:</label>
+            <span>{{ selectedUser.email }}</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="role">Role:</label>
+          <select id="role" [(ngModel)]="selectedUser.role" class="form-select">
+            <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeEditModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="updateUserRole()">Update Role</button>
+      </div>
+    </div>
+  </div>
+</div>

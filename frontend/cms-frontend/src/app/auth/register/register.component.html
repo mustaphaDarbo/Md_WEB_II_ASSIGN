@@ -1,0 +1,51 @@
+<div class="auth-wrapper">
+  <div class="auth-card">
+
+    <!-- LEFT PANEL -->
+    <div class="auth-left">
+      <h2>Hello Friend!</h2>
+      <p>Enter your personal details and start your journey with us today.</p>
+      <a routerLink="/login" class="ghost-btn">SIGN IN</a>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="auth-right">
+      <div class="logo">
+        <h1>Contentflow CMS</h1>
+      </div>
+      
+      <h2>Create Account</h2>
+      <p>Fill in your details to get started</p>
+
+      <form (ngSubmit)="register()">
+
+        <input
+          type="text"
+          name="fullName"
+          [(ngModel)]="form.fullName"
+          placeholder="Full Name"
+          required
+        />
+
+        <input
+          type="email"
+          name="email"
+          [(ngModel)]="form.email"
+          placeholder="Email"
+          required
+        />
+
+        <input
+          type="password"
+          name="password"
+          [(ngModel)]="form.password"
+          placeholder="Password"
+          required
+        />
+
+        <button type="submit">SIGN UP</button>
+      </form>
+    </div>
+
+  </div>
+</div>
