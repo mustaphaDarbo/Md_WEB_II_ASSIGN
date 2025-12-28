@@ -239,11 +239,11 @@ app.get("/api/users-simple", (req, res) => {
       res.json({ message: "Server is working!" });
     });
   // Serve frontend static files
-  app.use(express.static(path.join(__dirname, '../frontend/cms-frontend/dist/cms-frontend')));
+  app.use(express.static(path.join(__dirname, '../frontend/cms-frontend/dist/cms-frontend/browser')));
   
   // Handle client-side routing
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/cms-frontend/dist/cms-frontend/index.html'));
+    res.sendFile(path.join(__dirname, '../frontend/cms-frontend/dist/cms-frontend/browser/index.html'));
   });
 })
   .catch(err => console.log(err));
