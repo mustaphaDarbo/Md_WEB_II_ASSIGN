@@ -57,6 +57,15 @@ connectDB().then(async (connected) => {
     res.json({ message: "Articles route works!" });
   });
   
+  // Add simple articles route without auth for testing
+  app.get("/api/articles-simple", (req, res) => {
+    console.log('Simple articles route hit');
+    res.json([
+      { _id: "1", title: "Test Article 1", body: "Test content 1", published: false },
+      { _id: "2", title: "Test Article 2", body: "Test content 2", published: true }
+    ]);
+  });
+  
   app.use("/api/articles", require("./routes/article.routes"));
   app.use("/api/users", require("./routes/user.routes"));
 
