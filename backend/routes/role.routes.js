@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const roleController = require("../controllers/role.controller");
-const { authenticateToken, requirePermission } = require("../middleware/auth");
+const { authenticateToken, requirePermission } = require("../middleware/auth.middleware");
 
 // All routes require authentication and manageRoles permission
 router.get("/", authenticateToken, requirePermission("manageRoles"), roleController.getRoles);
