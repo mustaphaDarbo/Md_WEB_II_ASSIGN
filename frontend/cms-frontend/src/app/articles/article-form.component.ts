@@ -87,7 +87,7 @@ export class ArticleFormComponent implements OnInit {
     let payload: any;
     let useFormData = false;
 
-    if (this.selectedImage || (this.isEdit && this.article.image)) {
+    if (this.selectedImage || (this.isEdit && (this.article as any).image)) {
       useFormData = true;
       const fd = new FormData();
       fd.append('title', this.article.title);

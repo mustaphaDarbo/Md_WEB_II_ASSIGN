@@ -2,6 +2,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 require("dotenv").config();
 
 const app = express();
@@ -237,7 +238,14 @@ app.get("/api/users-simple", (req, res) => {
       console.log("Test route hit!");
       res.json({ message: "Server is working!" });
     });
-  })
+  // Serve frontend static files
+  app.use(express.static(path.join(__dirname, '../frontend/cms-frontend/dist/cms-frontend')));
+  
+  // Handle client-side routing
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../frontend/cms-frontend/dist/cms-frontend/index.html'));
+  });
+})
   .catch(err => console.log(err));
 
 app.listen(5000, () => {
