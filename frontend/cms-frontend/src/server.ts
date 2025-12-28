@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class AuthService {
-  api = 'http://localhost:5000/api/auth';
+  api = 'https://md-web-ii-assign.onrender.com/api/auth';
 
   constructor(private http: HttpClient) {}
 

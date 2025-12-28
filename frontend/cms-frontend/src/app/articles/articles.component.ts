@@ -22,7 +22,7 @@ export class ArticlesComponent implements OnInit {
   user: any = null;
   viewMode: 'create' | 'library' = 'create';
   isSuperAdmin: boolean = false;
-  private API = 'http://localhost:5000/api/articles';
+  private API = 'https://md-web-ii-assign.onrender.com/api/articles';
 
   newArticle = {
     title: '',
