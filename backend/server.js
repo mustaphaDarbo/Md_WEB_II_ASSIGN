@@ -241,8 +241,8 @@ app.get("/api/users-simple", (req, res) => {
   // Serve frontend static files
   app.use(express.static(path.join(__dirname, '../frontend/cms-frontend/dist/cms-frontend/browser')));
   
-  // Handle client-side routing
-  app.get('*', (req, res) => {
+  // Handle client-side routing - catch all non-API routes
+  app.get(/^((?!\/api).)*$/, (req, res) => {
     res.sendFile(path.join(__dirname, '../frontend/cms-frontend/dist/cms-frontend/browser/index.html'));
   });
 })
