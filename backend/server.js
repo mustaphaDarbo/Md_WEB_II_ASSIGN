@@ -238,13 +238,6 @@ app.get("/api/users-simple", (req, res) => {
       console.log("Test route hit!");
       res.json({ message: "Server is working!" });
     });
-  // Serve frontend static files
-  app.use(express.static(path.join(__dirname, '../frontend/cms-frontend/dist/cms-frontend/browser')));
-  
-  // Handle client-side routing - catch all non-API routes
-  app.get(/^((?!\/api).)*$/, (req, res) => {
-    res.sendFile(path.join(__dirname, '../frontend/cms-frontend/dist/cms-frontend/browser/index.html'));
-  });
 })
   .catch(err => console.log(err));
 
